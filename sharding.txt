@@ -1,0 +1,8 @@
+Steps to shard the mongo db used for this application
+
+1. We can only use cmd to shard the db
+2. After connecting mongo db server using mongo db shell, following command needs to be used
+    sh.enableSharding("<database-name>")
+3. Shard your collection by running the following command
+    sh.shardCollection("<database-name>.<collection-name>", { "<shard-key>": "hashed" })
+4. Verify that sharding is enabled and your collection is sharded by running the sh.status() command. It will display information about your sharded cluster and the shards
