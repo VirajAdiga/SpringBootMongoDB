@@ -6,6 +6,7 @@ import com.virajadiga.jobposting.repository.JobPostRepository;
 import com.virajadiga.jobposting.repository.TechnologyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,6 +24,9 @@ public class TechnologyService {
 
     @Autowired
     private MongoOperations mongoOperations;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     public Optional<Technology> updateTechnology(String id, String technologyName) {
 
@@ -50,5 +54,13 @@ public class TechnologyService {
             mongoOperations.save(jobPost);
         }
         return technologyRepository.findById(id);
+    }
+
+    public List<Technology> searchByName(String name){
+        Query searchQuery = new Query();
+        Criteria criteria = Criteria.where("name").regex(name, "i"); // "i" for case-insensitive search
+        searchQuery.addCriteria(criteria);
+
+        return mongoTemplate.find(searchQuery, Technology.class);
     }
 }

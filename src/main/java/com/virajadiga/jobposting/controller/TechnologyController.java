@@ -33,4 +33,9 @@ public class TechnologyController {
         String technologyName = technology.getName();
         return technologyService.updateTechnology(id, technologyName);
     }
+
+    @GetMapping("/technologies/search")
+    public List<Technology> searchByName(@RequestParam("name") String name){
+        return technologyService.searchByName(name);
+    }
 }

@@ -2,7 +2,7 @@ package com.virajadiga.jobposting.controller;
 
 import com.virajadiga.jobposting.model.JobPost;
 import com.virajadiga.jobposting.repository.JobPostRepository;
-import com.virajadiga.jobposting.repository.SearchRepository;
+import com.virajadiga.jobposting.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +15,7 @@ public class JobPostController {
     private JobPostRepository jobPostRepository;
 
     @Autowired
-    private SearchRepository searchRepository;
+    private JobService jobService;
 
     @GetMapping("/posts")
     public List<JobPost> getJobPosts(){
@@ -27,8 +27,8 @@ public class JobPostController {
         return jobPostRepository.save(jobPost);
     }
 
-    @GetMapping("/posts/{searchText}")
-    public List<JobPost> searchPostsByText(@PathVariable String searchText){
-        return searchRepository.searchByText(searchText);
+    @GetMapping("/posts/search")
+    public List<JobPost> searchPostsByProfile(@RequestParam("profile") String profile){
+        return jobService.searchByProfile(profile);
     }
 }
